@@ -1,0 +1,4 @@
+Luisitin is a custom made continuous integration solution. It was built first in 2006 when there were no solution for continuous integration in the market as a way to automate the building process for Impactia Suite product. It has evolved over the years to adapt to newer technologies.
+The first version was developed based on Bash and SVN running on Fedora.
+The second version which added a distribution step was used for building and distributing the product KPM in KaizenLa company in Chile and was based on Bash, Ruby and SVN.
+The current version is focused on deploying Web applications for several start-ups on AWS and is based on Bash, NodeJS, and GIT.  
