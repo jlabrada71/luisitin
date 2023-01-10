@@ -1,6 +1,6 @@
 Description
 ========
-Luisitin is a custom made continuous integration solution. It was built first in 2006 when there were no solution for continuous integration in the market as a way to automate the building process for [Impactia Suite](https://impactia.com/)   product. It has evolved over the years to adapt to newer technologies.
+Luisitin is a custom made continuous integration solution. It was first built in 2006 when there were no solution for continuous integration in the market as a way to automate the building process for [Impactia Suite](https://impactia.com/)   product. It has evolved over the years to adapt to newer technologies.
 As a custom made solution, it is simple, requires low resources and can be easily modified by any developer.
 
 Version history
