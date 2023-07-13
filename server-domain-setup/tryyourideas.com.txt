@@ -1,0 +1,36 @@
+;;
+;; Domain:     tryyourideas.com.
+;; Exported:   2023-01-13 20:56:30
+;;
+;; This file is intended for use for informational and archival
+;; purposes ONLY and MUST be edited before use on a production
+;; DNS server.  In particular, you must:
+;;   -- update the SOA record with the correct authoritative name server
+;;   -- update the SOA record with the contact e-mail address information
+;;   -- update the NS record(s) with the authoritative name servers for this domain.
+;;
+;; For further information, please consult the BIND documentation
+;; located on the following website:
+;;
+;; http://www.isc.org/
+;;
+;; And RFC 1035:
+;;
+;; http://www.ietf.org/rfc/rfc1035.txt
+;;
+;; Please note that we do NOT offer technical support for any use
+;; of this zone data, the BIND name server, or any other third-party
+;; DNS software.
+;;
+;; Use at your own risk.
+;; SOA Record
+tryyourideas.com	3600	IN	SOA	adel.ns.cloudflare.com dns.cloudflare.com 2042530999 10000 2400 604800 3600
+
+;; NS Records
+tryyourideas.com.	86400	IN	NS	adel.ns.cloudflare.com.
+tryyourideas.com.	86400	IN	NS	greg.ns.cloudflare.com.
+
+;; CNAME Records
+tryyourideas.com.	1	IN	CNAME	ec2-3-15-9-164.us-east-2.compute.amazonaws.com.
+www.tryyourideas.com.	1	IN	CNAME	tryyourideas.com.
+

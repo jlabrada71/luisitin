@@ -30,12 +30,12 @@ sudo systemctl restart nginx
 
 
 #create PM2 config file for site
-# sudo cp /home/ubuntu/setup-files/template.config.js /home/ubuntu/apps/$DOMAIN.config.js
+sudo cp /home/ubuntu/setup-files/template.config.js /home/ubuntu/apps/$DOMAIN.config.js
 
 #replace domain
-#sudo sed -i "s/<domain>/$DOMAIN/g" /home/ubuntu/apps/$DOMAIN.config.js
+sudo sed -i "s/<domain>/$DOMAIN/g" /home/ubuntu/apps/$DOMAIN.config.js
 # setting nginx reverse proxy
 #replace port
-#sudo sed -i "s/<port>/$PORT/g" /home/ubuntu/apps/$DOMAIN.config.js
+sudo sed -i "s/<port>/$PORT/g" /home/ubuntu/apps/$DOMAIN.config.js
 
 
