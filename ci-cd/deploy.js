@@ -58,6 +58,7 @@ const untarAndMv = async (command) => {
 }
 
 async function process() {
+  console.log('Starting...')
   const result = await ls(`${homePath}/pending-deploy`)
   result.stdout.split('\n')
               .filter(name => name.trim(''))
@@ -67,14 +68,21 @@ async function process() {
 
 
 
-const watcher = chokidar.watch( `${homePath}/pending-deploy`, {ignored: /^\./, persistent: true });
+const watcher = chokidar.watch( `${homePath}/pending-deploy`, {
+    ignored: /^\./, 
+    persistent: true, 
+    awaitWriteFinish: {
+      stabilityThreshold: 5000,
+      pollInterval: 500
+    }
+  });
 
 watcher
   .on('add', function(path) { 
-    process().catch(e) => {
+    process().catch(e => {
       console.log('ERROR')
       console.log(e)
-    }
+    })
   })
   .on('change', function(path) {
     console.log('File', path, 'has been changed')
