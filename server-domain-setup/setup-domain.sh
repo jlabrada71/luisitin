@@ -39,3 +39,5 @@ sudo sed -i "s/<domain>/$DOMAIN/g" /home/ubuntu/apps/$DOMAIN.config.js
 sudo sed -i "s/<port>/$PORT/g" /home/ubuntu/apps/$DOMAIN.config.js
 
 
+# getting certificates for the server from https://letsencrypt.org/
+# documentation: https://adamtheautomator.com/nginx-subdomain/
