@@ -26,7 +26,7 @@ const untarPath = `untar-files`
 const rollbackPath = `rollbacks`
 const appsPath = `apps`
 const untar = (file)  => execPms(`tar -xzf ${file}`)
-const pm2 = (action, file)  => execPms(`pm2 ${action} ${file}`)
+const pm2 = (action, file)  => execPms(`/home/ubuntu/.nvm/versions/node/v18.8.0/bin/pm2 ${action} ${file}`)
 const rm = (file)  => execPms(`rm -rf ${file}`)
 const mv = (source, target)  => execPms(`mv ${source} ${target}`)
 const exists = (file) => existsSync(file)
@@ -51,14 +51,14 @@ const untarAndMv = async (command) => {
   await executeTask('creating rollback rollback', mv, `${rollbackPath}/${command.name}_rollback`, `${rollbackPath}/${command.name}_previous_rollback`)
   await executeTask('creating rollback', mv, `${appsPath}/${command.name}`, `${rollbackPath}/${command.name}_rollback`)
   await executeTask('creating ', mv, `${untarPath}/${command.name}`, `${appsPath}/${command.name}`)
-  await executeTask('renaming', mv, `${appsPath}/${command.name}/server/index.mjs`, `${appsPath}/${command.name}/server/${command.name}.mjs`)
-  await pm2('start', `${appsPath}/${command.name}.config.js` )
+  // await executeTask('renaming', mv, `${appsPath}/${command.name}/server/index.mjs`, `${appsPath}/${command.name}/server/${command.name}.mjs`)
+  await pm2('start', `${homePath}/${appsPath}/${command.name}.config.js` )
 //   await pm2('start', `${appsPath}/${command.name}/server/${command.name}.mjs` )
   await executeTask('removing', rm, `${untarPath}/${command.name}.tar` )
 }
 
 async function process() {
-  console.log('Starting...')
+  console.log('Starting')
   const result = await ls(`${homePath}/pending-deploy`)
   result.stdout.split('\n')
               .filter(name => name.trim(''))
@@ -66,7 +66,9 @@ async function process() {
               .forEach(command => untarAndMv(command))
 }
 
+process()
 
+/*
 
 const watcher = chokidar.watch( `${homePath}/pending-deploy`, {
     ignored: /^\./, 
@@ -93,3 +95,5 @@ watcher
   .on('error', function(error) {
     console.error('Error happened', error)
   })
+
+  */
