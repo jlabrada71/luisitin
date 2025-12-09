@@ -25,13 +25,9 @@ const pendingPath = `pending-deploy`
 const untarPath = `untar-files`
 const rollbackPath = `rollbacks`
 const appsPath = `apps`
-let pm2Path = '/home/ubuntu/.nvm/versions/node/v18.8.0/bin/pm2'
-
 const untar = (file)  => execPms(`tar -xzf ${file}`)
-const which = (file)  => execPms(`which ${file}`)
-const pm2 = (action, file)  => execPms(`${pm2Path} ${action} ${file} --env production`)
+const pm2 = (action, file)  => execPms(`pm2 ${action} ${file} --env production`)
 const rm = (file)  => execPms(`rm -rf ${file}`)
-const echo = (message)  => execPms(`echo ${message} >> ${homePath}/restart.sh`)
 const mv = (source, target)  => execPms(`mv ${source} ${target}`)
 const exists = (file) => existsSync(file)
 
@@ -43,26 +39,21 @@ const executeTask = async (message, task, source, target ) => {
 }
 
 const untarAndMv = async (command) => {
-  const { stdout: pm2PathStdout } = await which('pm2')
-  pm2Path = pm2PathStdout.trim()
   console.log(`untaring ${command.untar}`)
   await executeTask('moving', mv,  `${pendingPath}/${command.name}.tar`, `${untarPath}/${command.name}.tar`)
   await untar(`${command.untar}`)
   await executeTask('renaming', mv, `${untarPath}/.output`, `${untarPath}/${command.name}`)
   const { stdout } = await pm2('list')
   if (stdout.includes(command.name)) {
-    await pm2('stop', `${homePath}/${appsPath}/${command.name}.config.js` )
+    await pm2('stop', `${homePath}/${appsPath}/${command.name}.config.js`)
   }
   await executeTask('removing', rm, `${rollbackPath}/${command.name}_previous_rollback`)
   await executeTask('creating rollback rollback', mv, `${rollbackPath}/${command.name}_rollback`, `${rollbackPath}/${command.name}_previous_rollback`)
   await executeTask('creating rollback', mv, `${appsPath}/${command.name}`, `${rollbackPath}/${command.name}_rollback`)
   await executeTask('creating ', mv, `${untarPath}/${command.name}`, `${appsPath}/${command.name}`)
-  // await executeTask('renaming', mv, `${appsPath}/${command.name}/server/index.mjs`, `${appsPath}/${command.name}/server/${command.name}.mjs`)
+  await executeTask('renaming', mv, `${appsPath}/${command.name}/server/index.mjs`, `${appsPath}/${command.name}/server/${command.name}.mjs`)
   await pm2('start', `${homePath}/${appsPath}/${command.name}.config.js` )
-//   await pm2('start', `${appsPath}/${command.name}/server/${command.name}.mjs` )
   await executeTask('removing', rm, `${untarPath}/${command.name}.tar` )
-  await echo(`pm2 stop ${homePath}/${appsPath}/${command.name}.config.js`)
-  await echo(`pm2 start ${homePath}/${appsPath}/${command.name}.config.js --env production`)
 }
 
 async function process() {
@@ -74,10 +65,12 @@ async function process() {
               .forEach(command => untarAndMv(command))
 }
 
-process()
+process().catch(e => {
+  console.log('ERROR')
+  console.log(e)
+});
 
 /*
-
 const watcher = chokidar.watch( `${homePath}/pending-deploy`, {
     ignored: /^\./, 
     persistent: true, 
@@ -103,5 +96,4 @@ watcher
   .on('error', function(error) {
     console.error('Error happened', error)
   })
-
-  */
+    */

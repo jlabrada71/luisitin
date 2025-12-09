@@ -2,7 +2,7 @@ module.exports = {
     apps : [
         {
           name: "<domain>",
-          script: "apps/<domain>/server/index.mjs",
+          script: "apps/<domain>/server/main.js",
           watch: true,
           env: {
               "PORT": <port>,
